@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../static/css/styles.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+		rel='stylesheet'>
+	<title>Add New Item</title>
+</head>
+<body>
+	<header>
+		<img src="../static/img/logo1.jpg">
+	</header>
+	<div class="wrapper">
+		<h1>Add New Item</h1>
+
+		<form id="addItemForm">
+			<label for="itemName">Item Name:</label><br> <input type="text"
+				id="itemName" name="itemName"><br>
+			<br> <label for="description">Description:</label><br>
+			<textarea id="description" name="description" rows="4" cols="50"></textarea>
+			<br>
+			<br> <label for="bidPrice">Bid Price:</label><br> <input
+				type="number" id="bidPrice" name="bidPrice" min="0" step="1.00"><br>
+			<br> <label for="endTime">End Time:</label><br> <input
+				type="text" id="endTime" name="endTime"><br>
+			<br> <label for="dutch">Dutch Bid:</label> <input
+				type="checkbox" id="dutch" name="dutch"><br>
+			<br> <label for="forward">Forward Bid:</label> <input
+				type="checkbox" id="forward" name="forward"><br>
+			<br> <label for="decrementAmount">Decrement Amount:</label><br>
+			<input type="number" id="decrementAmount" name="decrementAmount"
+				min="0"><br>
+			<br> <label for="lowestBidPrice">Lowest Bid Price:</label><br>
+			<input type="number" id="lowestBidPrice" name="lowestBidPrice"
+				min="0" step="0.01"><br>
+			<br> <label for="shipmentCost">Shipment Cost:</label><br> <input
+				type="number" id="shipmentCost" name="shipmentCost" min="0"
+				step="1.00"><br>
+			<br> <label for="shipmentDays">Shipment Days:</label><br> <input
+				type="number" id="shipmentDays" name="shipmentDays" min="0"><br>
+			<br> 
+			<button type="submit" class="btn">Create</button>
+		</form>
+
+	</div>
+
+	<p id="confirmationMessage"></p>
+
+	<script>
+	$(document).ready(function() {
+		$('#addItemForm').submit(function(event) {
+			event.preventDefault(); // Prevent default form submission
+
+			var formData = {
+				itemName: $('#itemName').val(),
+				description: $('#description').val(),
+				bidPrice: $('#bidPrice').val(),
+				endTime: $('#endTime').val(),
+				dutch: $('#dutch').prop('checked'),
+				forward: $('#forward').prop('checked'),
+				decrementAmount: $('#decrementAmount').val(),
+				lowestBidPrice: $('#lowestBidPrice').val(),
+				shipmentCost: $('#shipmentCost').val(),
+				shipmentDays: $('#shipmentDays').val()
+			};
+
+			// AJAX POST request
+			$.ajax({
+				type: 'POST',
+				url: 'http://localhost:9999/account/{userId}/sellingItems',
+				contentType: 'application/json',
+				data: JSON.stringify(formData),
+				success: function(data) {
+					// Handle successful submission
+					$('#confirmationMessage').text("Item added successfully!");
+					$('#confirmationMessage').show();
+					window.location.href = 'ItemSearch.html';
+				},
+				error: function(xhr, textStatus, errorThrown) {
+					// Handle errors
+					$('#confirmationMessage').text("Error: " + xhr.responseText);
+					$('#confirmationMessage').show();
+				}
+			});
+		});
+	});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <link rel="stylesheet" href="../static/css/itemsearchStyle.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<header>
+    <img src="../static/img/logo1.jpg">
+</header>
+<div class="container">
+    <form id="ItemSearch" action="#">
+
+        <div class="input-box">
+            <input type="text" placeholder="Item Search..." class="search-bar"><br>
+        </div>
+        <select class="select-box" onchange="selectBid(this)">
+            <option value="">Select a Bid</option>
+            <option value="DutchBidCatalogue.html">Dutch Bids</option>
+            <option value="ItemCatalogue.html">Forward Bids</option>
+            <option value="SellerCatalogue.html">My Item</option>
+        </select>
+        <button onclick="goToPage('ItemCatalogue.html')" type="button" class="btn">Go to All Bids</button>
+        <button onclick="goToPage('DutchBidCatalogue.html')" type="button" class="btn">Go to Dutch Bids</button>
+        <button onclick="goToPage('ItemCatalogue.html')" type="button" class="btn">Go to Forward Bids</button>
+        <button onclick="goToPage('SellerCatalogue.html')" type="button" class="btn">Go to My Items</button>
+        <button onclick="goToPage('EditUser.html')" type="button" class="btn">Edit User</button>
+        <button onclick="goToPage('ChangePassword.html')" type="button" class="btn">Change Password</button>
+        <button onclick="goToPage('SignIn.html')" type="button" class="btn">Sign Out</button>
+    </form>
+</div>
+
+<script>
+    function goToPage(page) {
+        window.location.href = 'http://localhost:9999/' + page;
+    }
+
+    function selectBid(select) {
+        var selectedPage = select.value;
+        if (selectedPage !== "") {
+            window.location.href = 'http://localhost:9999/' + selectedPage;
+        }
+    }
+</script>
+</body>
+</html>

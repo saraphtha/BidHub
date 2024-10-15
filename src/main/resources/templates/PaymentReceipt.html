@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment List</title>
+<link rel="stylesheet" href="../static/css/styles.css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+<header>
+	<img src="../static/img/logo1.jpg">
+</header>
+	
+</head>
+<body>
+	
+	
+	<div class = "wrapper">
+	<header>
+		<h1>Payment Information</h1>
+	</header>
+	<ul id="paymentList" >
+
+			<li>id</li>
+			<li>paymentType</li>
+			<li>cardNumber</li>
+			<li>firstName</li>
+			<li>lastName</li>
+			<li>email</li>
+			<li>phone</li>
+			<li>address</li>
+			<li>unit</li>
+			<li>postalCode</li>
+			<li>city</li>
+			<li>country</li>
+			<li>shipmentCost</li>
+			<li>shipmentDays</li>
+			<li>expeditedShipment</li>
+			<li>expeditedShipmentCost</li>
+	</ul>
+	
+	<form id="homepage" action="">
+	<button onclick="window.location.href = 'http://localhost:9999/BidHub/ItemSearch.html';" type="submit" class ="btn"> Back to Home </button>
+	</form>
+	
+</div>
+	<script>
+	
+		$(document).ready(function() {
+			$.ajax({
+				url : "http://localhost:9999/BidHub/account/{userId}/bidItems/{bidItemId}/receipt/{payId}",
+				type : 'GET',
+				success : function(result) {
+					var list = $("#paymentList");
+					result.forEach(function(bidhub1) {
+						var row = $("<ul></ul>");
+						row.append($("<li></li>").text(bidhub1.id));
+						row.append($("<li></li>").text(bidhub1.paymentType));
+						row.append($("<li></li>").text(bidhub1.cardNumber));
+						row.append($("<li></li>").text(bidhub1.firstName));
+						row.append($("<li></li>").text(bidhub1.lastName));
+						row.append($("<li></li>").text(bidhub1.email));
+						row.append($("<li></li>").text(bidhub1.phone));
+						row.append($("<li></li>").text(bidhub1.address));
+						row.append($("<li></li>").text(bidhub1.unit));
+						row.append($("<li></li>").text(bidhub1.postalCode));
+						row.append($("<li></li>").text(bidhub1.city));
+						row.append($("<li></li>").text(bidhub1.country));
+						row.append($("<li></li>").text(bidhub1.shipmentCost));
+						row.append($("<li></li>").text(bidhub1.shipmentDays));
+						row.append($("<li></li>").text(bidhub1.expeditedShipment));
+						row.append($("<li></li>").text(bidhub1.expeditedShipmentCost));
+						list.append(row);
+					});
+				},
+				error : function(error) {
+					console.log(error);
+				}
+			});
+		});
+	</script>
+	
+	<script>
+	$("#homepage").submit(function(e) {
+		e.preventDefault();
+		var deleteData = {
+				id : $("#id").val(),
+		};
+		$.ajax({
+			url : "http://localhost:9999/account/{userId}/bidItems/{bidItemId}/receipt/{payId}", 
+			type : 'DELETE',
+			contentType : 'application/json',
+			data : JSON.stringify(paymentData),
+			success : function(result) {
+				$("#confirmationMessage").text("Success");
+			},
+			error : function(error) {
+				console.log(error);
+			}
+		});
+	});
+</script>
+
+</body>
+</html>
