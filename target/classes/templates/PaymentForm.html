@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../static/css/styles.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+	rel='stylesheet'>
+
+<title>Payment Details</title>
+
+<header>
+	<img src="../static/img/logo1.jpg">
+</header>
+
+</head>
+
+<body>
+	<div class = "wrapper">
+
+
+
+		<form id="addPaymentForm" action="">
+			<h1>Payment Details</h1>
+
+
+			<div class = "input-box">
+			<label for="paymentType"> Payment Type:</label> 
+			<select 
+				id="paymentType">
+				<option label="VISA">VISA</option>
+				<option label="MasterCard">MASTERCARD</option>
+				<option label="PAYPAL">PAYPAL</option>
+				<option label="GOOGLEPAY ">GOOGLEPAY</option>
+				<option label="APPLEPAY ">APPLEPAY</option>
+			</select> 
+			</div>
+			
+			<div class = "input-box">
+			<input type="text" placeholder= "Name On Card" id="nameOnCard" name="nameOnCard" required><br> 
+			</div>
+			
+			<div class = "input-box">	
+			<input type="text" placeholder= "CVC" id="CV" name="CV" required><br>
+			</div>
+
+			<div class = "input-box">
+			<input type="text" placeholder= "Expiry Date" id="cardExpiry" name="cardExpiry" required><br> 
+			</div>
+			
+			<div class = "input-box">
+			<label for="expeditedShipment"> Expediated Shipment:</label> 
+			<input type="radio" placeholder= "Expediated Shipment" id="expeditedShipment" name="cardExpiry" ><br> 
+			</div>
+			
+			
+			<button onclick="window.location.href = 'http://localhost:9999/PaymentReceipt.html';" type="submit" class ="btn"> Add Payment </button>
+			
+
+		</form>
+</div>
+		
+		
+
+	<script>
+	$("#addPaymentForm").submit(function(e) {
+		e.preventDefault();
+		var paymentData = {
+			name : $("#paymentType").val(),
+			nameOnCard : $("#nameOnCard").val(),
+			CV : $("#CV").val(),
+			cardExpiry : $("#cardExpiry").val(),
+			expeditedShipment : $("#expeditedShipment").val(),
+		};
+		$.ajax({
+			url : "http://localhost:9999/account/{userId}/bidItems/{bidItemId}/payNow", 
+			type : 'POST',
+			contentType : 'application/json',
+			data : JSON.stringify(paymentData),
+			success : function(result) {
+				$("#confirmationMessage").text("Payment added successfully!");
+			},
+			error : function(error) {
+				console.log(error);
+			}
+		});
+	});
+</script>
+
+
+</body>
+
+
+
+</html>
+
+
+
+
+
+
+
+
+

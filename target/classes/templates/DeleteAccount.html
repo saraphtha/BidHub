@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../static/css/styles.css">
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+		rel='stylesheet'>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+	<title>Delete Account</title>
+</head>
+
+<body>
+	<header>
+		<img src="../static/img/logo1.jpg" alt="BidHub Logo">
+	</header>
+	<div class="wrapper">
+		<form id="deleteAccountForm" action="">
+			<p> Your account will be permanently deleted once the below button is clicked</p>
+			<button type="submit" class="btn">Delete Account</button>
+		</form>
+
+		<div id="errorMessage"></div>
+	</div>
+	<div class="cancel">
+		<div class="buttons">
+			<a href="ItemSearch.html" class="button">Cancel</a>
+		</div>
+	</div>
+	
+	<script>
+        $(document).ready(function () {
+            $('#deleteAccountForm').submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // AJAX DELETE request
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'http://localhost:9999/account/{userId}/delete',
+                    success: function (data) {
+                        // Handle successful deletion
+                        window.location.href = 'Welcome.html'; // Redirect to success page
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        // Handle errors
+                        $('#errorMessage').text('Failed to delete account: ' + xhr.statusText); // Display error message
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

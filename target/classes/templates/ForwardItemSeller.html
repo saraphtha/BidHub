@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../static/css/styles.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+		rel='stylesheet'>
+	<title>Forward Auction Item</title>
+</head>
+
+
+<body>
+	<header>
+		<img src="../static/img/logo1.jpg">
+	</header>
+	<div class="container" id="auctionItemDetails">
+		<!-- Auction item details will be populated here -->
+	</div>
+
+	<div class="wrapper">
+		<form id="cancelForm" action="">
+			<button type="submit" class="btn">Cancel Auction</button>
+		</form>
+
+		<div id="errorMessage"></div>
+	</div>
+
+	<script>
+        $(document).ready(function () {
+            // Fetch auction item details using AJAX
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:9999/account/{userId}/auctionItems/{bidItemId}',
+                success: function (data) {
+                    // Populate auction item details
+                    var itemDetails = "<h2>" + data.itemName + "</h2>";
+                    itemDetails += "<p>Description: " + data.description + "</p>";
+                    itemDetails += "<p>Shippment Price: " + data.shipmentCost + "</p>";
+                    itemDetails += "<p>Current Bidder: " + data.currentBidder + "</p>";
+                    itemDetails += "<p>Bid Price: " + data.bidPrice + "</p>";
+
+                    $('#auctionItemDetails').html(itemDetails);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Handle errors
+                    console.error(xhr.statusText);
+                    $('#auctionItemDetails').html('<p>Error fetching item details.</p>');
+                }
+            });
+
+	         
+	      	 // Cancel form
+	         $('#cancelForm').submit(function (event) {
+	             event.preventDefault();
+	
+	             // AJAX POST request to submit bid
+	             $.ajax({
+	                 type: 'PUT',
+	                 url: 'http://localhost:9999/account/{userId}/sellingItems/{bidItemId}/cancel',
+	                 success: function () {
+	                     alert("Canceled auction.")
+	                 	window.location.href = 'ItemSearch.html';
+	                 },
+	                 error: function (xhr, textStatus, errorThrown) {
+	                     // Handle errors
+	                     console.error(xhr.statusText);
+	                     $('#errorMessage').text('Failed to place bid: ' + xhr.statusText);
+	                 }
+	             });
+	         });
+        });
+    </script>
+</body>
+</html>
